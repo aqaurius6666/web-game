@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from .database.model import db
 
 app = Flask(__name__)
+db.init_app(app)
 HEROKU = "config_heroku.py"
 LOCAL = "config_local.py"
 app.config.from_pyfile(HEROKU)

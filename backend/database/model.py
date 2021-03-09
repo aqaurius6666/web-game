@@ -10,6 +10,6 @@ class Account(db.Model):
 
 class Info(db.Model):
 
-    uid = db.Column(db.String(36))
+    uid = db.Column(db.String(36), primary_key=True)
     name = db.Column(db.String(64, convert_unicode=True))
 
