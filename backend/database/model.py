@@ -47,9 +47,9 @@ class Game(db.Model):
         }
 class GameTypes(db.Model):
     __table_name__ = 'game_types'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     gid = db.Column(db.String(5), db.ForeignKey('game.gid'))
-    tid = db.Column(db.Integer)
+    tid = db.Column(db.Integer, db.ForeignKey('types.tid'))
     def to_dict(self):
         return {
             'gid' : self.gid,
@@ -57,7 +57,7 @@ class GameTypes(db.Model):
         }
 class Types(db.Model):
     __table_name__ = 'types'
-    tid = db.Column(db.Integer, db.ForeignKey('game_types.tid'), primary_key=True, autoincrement=True)
+    tid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(45, convert_unicode=True))
     def to_dict(self):
         return {
