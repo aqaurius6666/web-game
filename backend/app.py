@@ -1,4 +1,4 @@
-from flask import Flask, json, jsonify
+from flask import Flask, jsonify
 from flask.globals import request
 from .database.model import *
 from uuid import uuid4
@@ -39,25 +39,9 @@ def token_required(f):
 def index():
     return jsonify({"message" : "It index"})
 
-@app.route('/api/database/create', methods=['GET'])
-def create_table():
-    db.drop_all()
-    db.create_all()
-    return jsonify({"message" : "Create all table successfully!"}), 200
-
-@app.route('/api/accounts', methods=['GET'])
-def get_accounts():
-    array = [account.to_dict() for account in Account.query.all()]
-    return jsonify({'array' : array,
-                    'length' : len(array)}), 200
-
-
-@app.route('/api/user_info', methods=['GET'])
-def get_user_info():
-    array = [user.to_dict() for user in UserInfo.query.all()]
-    return jsonify({'array' : array,
-                    'length' : len(array)}), 200
-
+#-----------------------------------------------------------------------------------------------------------------
+# Testing methods
+#-----------------------------------------------------------------------------------------------------------------
 
 @app.route('/api/test', methods=['GET'])
 def add_like():
@@ -74,45 +58,29 @@ def get_all_likes():
                     .select_from(Game).join(Game).filter(Liked.gid==Game.gid).order_by(Game.gid).all()
     print(array)
     return {}
-@app.route('/api/accounts/info', methods=['GET'])
-def get_full_info():
-    array = db.session.query(Account, UserInfo).join(UserInfo).filter(Account.uid==UserInfo.uid).all()
-    return jsonify({'array' : [{**each.Account.to_dict(), **each.UserInfo.to_dict()} for each in array], 
-                    'length' : len(array)}), 200
-@app.route('/api/games', methods=['POST'])
-def create_game():
+
+#-----------------------------------------------------------------------------------------------------------------
+# Authentication methods
+#-----------------------------------------------------------------------------------------------------------------
+@app.route('/api/authentication', methods=['POST'])
+def login():
     data = request.json
-    try:
-        game = Game(gid=data['gid'], name=data['name'])
-        db.session.add(game)
-        for type in data['types']:
-            row = GameTypes(gid=data['gid'], tid=Types.query.filter_by(name=type).first().tid)
-            db.session.add(row)
-        db.session.commit()
-        return jsonify({'message' : 'Create successfully!'}), 201
-    except Exception as e:
-        print(e)
-        return jsonify({'message' : 'Error'}), 400
-@app.route('/api/games', methods=['GET'])
-def get_games():
-    array = db.session.query(Game, GameTypes, Types)\
-                        .select_from(Game).join(GameTypes).filter(Game.gid==GameTypes.gid)\
-                        .join(Types).filter(GameTypes.tid==Types.tid).all()
-    print(array)
-    return jsonify({'array' : [{**each.Game.to_dict(), 
-                                'types' : [each.Types.to_dict()]} for each in array], 
-                    'length' : len(array)}), 200
-@app.route('/api/types', methods=['POST'])
-def create_type():
-    data = request.json
-    try:
-        type = Types(name=data['name'])
-        db.session.add(type)
-        db.session.commit()
-        return jsonify({'message' : 'Create successfully!'}), 201
-    except Exception as e:
-        print(e)
-        return jsonify({'message' : 'Error'}), 400
+    account = Account.query.filter_by(username=data['username']).first()
+    if account:
+        if check_password_hash(account.password, data['password']):
+            return jsonify({'message' : 'Login successfully!', 
+                            'token' : encode_auth_token(account.uid, app.config['SECRET_KEY'])})
+    else:
+        return jsonify({'message' : 'Username or password is invalid!'}), 400
+
+@app.route('/api/account', methods=['GET'])
+@token_required
+def get_account(current):
+    return jsonify({'account' : current.to_dict()}), 200
+
+#-----------------------------------------------------------------------------------------------------------------
+# Create methods
+#-----------------------------------------------------------------------------------------------------------------
 @app.route('/api/accounts', methods=['POST'])
 def create_account():
     data = request.json
@@ -131,6 +99,69 @@ def create_account():
         print(e)
         return jsonify({'message' : 'Error'}), 400
 
+@app.route('/api/games', methods=['POST'])
+def create_game():
+    data = request.json
+    try:
+        game = Game(gid=data['gid'], name=data['name'])
+        db.session.add(game)
+        for type in data['types']:
+            row = GameTypes(gid=data['gid'], tid=Types.query.filter_by(name=type).first().tid)
+            db.session.add(row)
+        db.session.commit()
+        return jsonify({'message' : 'Create successfully!'}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({'message' : 'Error'}), 400
+
+@app.route('/api/types', methods=['POST'])
+def create_type():
+    data = request.json
+    try:
+        type = Types(name=data['name'])
+        db.session.add(type)
+        db.session.commit()
+        return jsonify({'message' : 'Create successfully!'}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({'message' : 'Error'}), 400
+
+
+#-----------------------------------------------------------------------------------------------------------------
+# Get methods
+#-----------------------------------------------------------------------------------------------------------------
+@app.route('/api/accounts/info', methods=['GET'])
+def get_full_info():
+    array = db.session.query(Account, UserInfo).join(UserInfo).filter(Account.uid==UserInfo.uid).all()
+    return jsonify({'array' : [{**each.Account.to_dict(), **each.UserInfo.to_dict()} for each in array], 
+                    'length' : len(array)}), 200
+
+@app.route('/api/games', methods=['GET'])
+def get_games():
+    array = db.session.query(Game, GameTypes, Types)\
+                        .select_from(Game).join(GameTypes).filter(Game.gid==GameTypes.gid)\
+                        .join(Types).filter(GameTypes.tid==Types.tid).all()
+    print(array)
+    return jsonify({'array' : [{**each.Game.to_dict(), 
+                                'types' : [each.Types.to_dict()]} for each in array], 
+                    'length' : len(array)}), 200
+
+@app.route('/api/accounts', methods=['GET'])
+def get_accounts():
+    array = [account.to_dict() for account in Account.query.all()]
+    return jsonify({'array' : array,
+                    'length' : len(array)}), 200
+
+@app.route('/api/user_info', methods=['GET'])
+def get_user_info():
+    array = [user.to_dict() for user in UserInfo.query.all()]
+    return jsonify({'array' : array,
+                    'length' : len(array)}), 200
+
+#-----------------------------------------------------------------------------------------------------------------
+# Update methods
+#-----------------------------------------------------------------------------------------------------------------
+
 @app.route('/api/account', methods=['PUT'])
 @token_required
 def update_account(current):
@@ -141,22 +172,12 @@ def update_account(current):
     else:
         return jsonify({'message' : 'Password is wrong!'}), 400
 
+#-----------------------------------------------------------------------------------------------------------------
+# Database methods
+#-----------------------------------------------------------------------------------------------------------------
 
-@app.route('/api/authentication', methods=['POST'])
-def login():
-    data = request.json
-    account = Account.query.filter_by(username=data['username']).first()
-    if account:
-        if check_password_hash(account.password, data['password']):
-            return jsonify({'message' : 'Login successfully!', 
-                            'token' : encode_auth_token(account.uid, app.config['SECRET_KEY'])})
-    else:
-        return jsonify({'message' : 'Username or password is invalid!'}), 400
-
-@app.route('/api/account', methods=['GET'])
-@token_required
-def get_account(current):
-    return jsonify({'account' : current.to_dict()}), 200
-
-
-
+@app.route('/api/database/create', methods=['GET'])
+def create_table():
+    db.drop_all()
+    db.create_all()
+    return jsonify({"message" : "Create all table successfully!"}), 200
