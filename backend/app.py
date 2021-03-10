@@ -64,6 +64,11 @@ def get_all_likes():
 #-----------------------------------------------------------------------------------------------------------------
 @app.route('/api/authentication', methods=['POST'])
 def login():
+    '''
+        input: {'username' :
+                'password' : 
+                }
+    '''
     data = request.json
     account = Account.query.filter_by(username=data['username']).first()
     if account:
@@ -83,6 +88,11 @@ def get_account(current):
 #-----------------------------------------------------------------------------------------------------------------
 @app.route('/api/accounts', methods=['POST'])
 def create_account():
+    '''
+        input: {'username' :
+                'password' : 
+                }
+    '''
     data = request.json
     try:
         uid = str(uuid4())
@@ -101,6 +111,12 @@ def create_account():
 
 @app.route('/api/games', methods=['POST'])
 def create_game():
+    '''
+        input: {'gid' : string(5)
+                'name' :
+                'types' : list [{'name' : }, ] 
+                }
+    '''
     data = request.json
     try:
         game = Game(gid=data['gid'], name=data['name'])
@@ -116,6 +132,9 @@ def create_game():
 
 @app.route('/api/types', methods=['POST'])
 def create_type():
+    '''
+        input: {'name' : }
+    '''
     data = request.json
     try:
         type = Types(name=data['name'])
@@ -165,6 +184,10 @@ def get_user_info():
 @app.route('/api/account', methods=['PUT'])
 @token_required
 def update_account(current):
+    '''
+        input: {'old_password' : ,
+                'password' : }
+    '''
     data = request.json
     if check_password_hash(current.password, data['old_password']):
         current.password = generate_password_hash(data['password'], method='sha256')
