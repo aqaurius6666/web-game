@@ -121,10 +121,9 @@ def create_account():
         account = Account(uid=uid,
                         username=data['username'],
                         password=generate_password_hash(data['password'], method='sha256'))
-        
-        user = UserInfo(uid=uid, name=data['username'])
-        
         db.session.add(account)
+        db.session.commit()
+        user = UserInfo(uid=uid, name=data['username'])
         db.session.add(user)
         db.session.commit()
         return jsonify({'message' : 'Create successfully!'}), 201
