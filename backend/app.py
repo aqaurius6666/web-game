@@ -7,8 +7,9 @@ from random import choice
 from functools import wraps
 import jwt
 from .utilities import *
+from flask_cors import CORS
 app = Flask(__name__)
-
+CORS(app)
 HEROKU = "config_heroku.py"
 LOCAL = "config_local.py"
 app.config.from_pyfile(HEROKU)
