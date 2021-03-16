@@ -7,6 +7,7 @@ import Register from './Components/register';
 import Login from './Components/login'
 export const BASE_URL = 'https://our-web-game.herokuapp.com'
 function App() {
+  console.log("App.js")
   return (
     <>
       <NavBar />
