@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import authenticationService from '../API/authentication_service'
+import history from './history';
 
 const Register = () => {
     const [userName, setUserName] = useState("");
@@ -8,11 +9,17 @@ const Register = () => {
     const checkPass = () => {
         if (password === rePassword)
             return true;
+        else { console.log("password not match") }
     }
     const onSubmitForm = (e) => {
         e.preventDefault();
         if (checkPass())
-            authenticationService.register(userName, password);
+            authenticationService.register(userName, password)
+            .then(() => {
+                history.push('/login')
+                window.location.reload()
+            }
+            )
 
     }
     return (
