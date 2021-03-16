@@ -13,10 +13,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-<<<<<<< HEAD
-=======
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
->>>>>>> 8e08ff00031e4348cf6bf5ce99f6f02927edbb6d
 reportWebVitals();
