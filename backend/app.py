@@ -130,6 +130,7 @@ def create_game():
   
 
 def create_one_game(data):
+    print(data)
     game = Game.query.filter_by(name=data['name']).first()
     if not game:
         ## tạo 1 game mới
@@ -191,15 +192,28 @@ def get_full_info():
     return jsonify({'array' : [{**each.Account.to_dict(), **each.UserInfo.to_dict()} for each in array], 
                     'length' : len(array)}), 200
 
+@app.route('/api/tags', methods=['GET'])
+def get_tags():
+    tags = Tag.query.all()
+    return jsonify({'array' : [tag.to_dict() for tag in tags], 'length' : len(tags)}), 200
 @app.route('/api/games', methods=['GET'])
 def get_games():
     array = db.session.query(Game, GameTagged, Tag)\
                         .select_from(Game).join(GameTagged).filter(Game.gid==GameTagged.gid)\
                         .join(Tag).filter(GameTagged.tid==Tag.tid).all()
-    print(array)
-    return jsonify({'array' : [{**each.Game.to_dict(), 
-                                'tags' : [each.Tag.to_dict()]} for each in array], 
-                    'length' : len(array)}), 200
+    mapping = {}
+    list_game = []
+    for row in array:
+        name = row.Game.name
+        tag = row.Tag.name
+        if name not in mapping.keys():
+            mapping[name] = []
+        else:
+            mapping[name].append(tag)
+    for key, value in mapping.items():
+        list_game.append({'name' : key, 'tags' : value})
+
+    return jsonify({'array' : list_game, 'length' : len(list_game)}), 200
 
 @app.route('/api/accounts', methods=['GET'])
 def get_accounts():
@@ -237,6 +251,10 @@ def update_account(current):
 
 @app.route('/api/database/create', methods=['GET'])
 def create_table():
-    db.drop_all()
-    db.create_all()
-    return jsonify({"message" : "Create all table successfully!"}), 200
+    try:
+        db.drop_all()
+        db.create_all()
+        return jsonify({"message" : "Create all table successfully!"}), 200
+    except:
+        return jsonify({"message" : "Failed"}), 200
+
