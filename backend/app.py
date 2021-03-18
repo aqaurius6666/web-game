@@ -254,7 +254,8 @@ def create_table():
     try:
         db.create_all()
         return jsonify({"message" : "Create all table successfully!"}), 200
-    except:
+    except Exception as e:
+        print(e)
         return jsonify({"message" : "Failed"}), 200
 
 
@@ -263,6 +264,7 @@ def drop_table():
     try:
         db.drop_all()
         return jsonify({"message" : "Drop all table successfully!"}), 200
-    except:
+    except Exception as e:
+        print(e)
         return jsonify({"message" : "Failed"}), 200
 
