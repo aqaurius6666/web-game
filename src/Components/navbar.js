@@ -4,7 +4,11 @@ const NavBar = () => {
 
     return (
         <>
-        <div>It nav bar</div>
+        <nav className="NavbarItems">
+            <h1 className="navbar-logo"></h1>
+            <div className="menu-logo"></div>
+
+        </nav>
         </>
     )
 }; export default NavBar
