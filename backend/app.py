@@ -252,9 +252,16 @@ def update_account(current):
 @app.route('/api/database/create', methods=['GET'])
 def create_table():
     try:
-        db.drop_all()
         db.create_all()
         return jsonify({"message" : "Create all table successfully!"}), 200
+    except:
+        return jsonify({"message" : "Failed"}), 200
+
+@app.route('/api/database/drop', methods=['GET'])
+def create_table():
+    try:
+        db.drop_all()
+        return jsonify({"message" : "Drop all table successfully!"}), 200
     except:
         return jsonify({"message" : "Failed"}), 200
 
