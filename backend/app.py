@@ -257,8 +257,9 @@ def create_table():
     except:
         return jsonify({"message" : "Failed"}), 200
 
+
 @app.route('/api/database/drop', methods=['GET'])
-def create_table():
+def drop_table():
     try:
         db.drop_all()
         return jsonify({"message" : "Drop all table successfully!"}), 200
