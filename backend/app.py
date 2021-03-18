@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 HEROKU = "config_heroku.py"
 LOCAL = "config_local.py"
-app.config.from_pyfile(HEROKU)
+app.config.from_pyfile(LOCAL)
 db.init_app(app)
 
 def token_required(f):
@@ -115,30 +115,65 @@ def create_game():
     '''
         input: {'gid' : string(5)
                 'name' :
-                'types' : list [{'name' : }, ] 
+                'tags' : list [{'name' : }, ] 
                 }
     '''
     data = request.json
-    try:
-        game = Game(gid=data['gid'], name=data['name'])
-        db.session.add(game)
-        for type in data['types']:
-            row = GameTypes(gid=data['gid'], tid=Types.query.filter_by(name=type).first().tid)
-            db.session.add(row)
-        db.session.commit()
-        return jsonify({'message' : 'Create successfully!'}), 201
-    except Exception as e:
-        print(e)
-        return jsonify({'message' : 'Error'}), 400
+    if 'is_list' in data.keys():
+        # data có mảng
+        for each in data['array']:
+            create_one_game(each)
+    else:
+        create_one_game(data)
 
-@app.route('/api/types', methods=['POST'])
-def create_type():
+    return jsonify({'message' : 'Create successfully!'}), 201
+  
+
+def create_one_game(data):
+    game = Game.query.filter_by(name=data['name']).first()
+    if not game:
+        ## tạo 1 game mới
+        game = Game(name=data['name'])
+        db.session.add(game)
+        db.session.commit()
+
+        for name_tag in data['tags']:
+            tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa
+            if not tag:
+                tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
+                db.session.add(tag)
+                db.session.commit()
+
+            row = GameTagged(gid=game.gid, tid=tag.tid)
+            db.session.add(row)
+
+        db.session.commit()
+    else:
+        ## update các tags
+        for name_tag in data['tags']:
+            tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa
+            if not tag:
+                tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
+                db.session.add(tag)
+                db.session.commit()
+            # Kiểm tra xem game cũ đã gắn tag chưa
+            if GameTagged.query.filter_by(gid=game.gid, tid = tag.tid).first():
+                pass
+            else:
+                row = GameTagged(gid=game.gid, tid=tag.tid)
+                db.session.add(row)
+
+            db.session.commit()
+
+    return True
+@app.route('/api/tags', methods=['POST'])
+def create_tag():
     '''
         input: {'name' : }
     '''
     data = request.json
     try:
-        type = Types(name=data['name'])
+        type = Tag(name=data['name'])
         db.session.add(type)
         db.session.commit()
         return jsonify({'message' : 'Create successfully!'}), 201
@@ -158,12 +193,12 @@ def get_full_info():
 
 @app.route('/api/games', methods=['GET'])
 def get_games():
-    array = db.session.query(Game, GameTypes, Types)\
-                        .select_from(Game).join(GameTypes).filter(Game.gid==GameTypes.gid)\
-                        .join(Types).filter(GameTypes.tid==Types.tid).all()
+    array = db.session.query(Game, GameTagged, Tag)\
+                        .select_from(Game).join(GameTagged).filter(Game.gid==GameTagged.gid)\
+                        .join(Tag).filter(GameTagged.tid==Tag.tid).all()
     print(array)
     return jsonify({'array' : [{**each.Game.to_dict(), 
-                                'types' : [each.Types.to_dict()]} for each in array], 
+                                'tags' : [each.Tag.to_dict()]} for each in array], 
                     'length' : len(array)}), 200
 
 @app.route('/api/accounts', methods=['GET'])

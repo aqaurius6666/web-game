@@ -38,25 +38,25 @@ class Liked(db.Model):
         }
 class Game(db.Model):
     __table_name__ = 'game'
-    gid = db.Column(db.String(5), primary_key=True)
+    gid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(45, convert_unicode=True))
     def to_dict(self):
         return {
             'gid' : self.gid,
             'name' : self.name
         }
-class GameTypes(db.Model):
-    __table_name__ = 'game_types'
+class GameTagged(db.Model):
+    __table_name__ = 'game_tagged'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    gid = db.Column(db.String(5), db.ForeignKey('game.gid'))
-    tid = db.Column(db.Integer, db.ForeignKey('types.tid'))
+    gid = db.Column(db.Integer, db.ForeignKey('game.gid'))
+    tid = db.Column(db.Integer, db.ForeignKey('tag.tid'))
     def to_dict(self):
         return {
             'gid' : self.gid,
             'tid' : self.tid
         }
-class Types(db.Model):
-    __table_name__ = 'types'
+class Tag(db.Model):
+    __table_name__ = 'tag'
     tid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(45, convert_unicode=True))
     def to_dict(self):
