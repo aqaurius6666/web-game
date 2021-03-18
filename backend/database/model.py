@@ -39,7 +39,7 @@ class Liked(db.Model):
 class Game(db.Model):
     __table_name__ = 'game'
     gid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(45, convert_unicode=True))
+    name = db.Column(db.String(64, convert_unicode=True))
     def to_dict(self):
         return {
             'gid' : self.gid,
