@@ -67,7 +67,7 @@ class Tag(db.Model):
 class Comment(db.Model):
     __table_name__ = 'comment'
     cid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    gid = db.Column(db.String(5), db.ForeignKey('game.gid'))
+    gid = db.Column(db.Integer, db.ForeignKey('game.gid'))
     time = db.Column(db.TIMESTAMP, default=datetime.utcnow)
     author = db.Column(db.String(36), db.ForeignKey('account.uid'))
     body = db.Column(db.UnicodeText)
