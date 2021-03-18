@@ -30,7 +30,7 @@ class Liked(db.Model):
     __table_name__ = 'liked'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uid = db.Column(db.String(36),  db.ForeignKey('account.uid'))
-    gid = db.Column(db.String(5),  db.ForeignKey('game.gid'))
+    gid = db.Column(db.Integer,  db.ForeignKey('game.gid'))
     def to_dict(self):
         return {
             'uid' : self.uid,
