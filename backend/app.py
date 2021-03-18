@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 HEROKU = "config_heroku.py"
 LOCAL = "config_local.py"
-app.config.from_pyfile(HEROKU)
+app.config.from_pyfile(LOCAL)
 db.init_app(app)
 
 def token_required(f):
@@ -198,6 +198,11 @@ def get_tags():
     return jsonify({'array' : [tag.to_dict() for tag in tags], 'length' : len(tags)}), 200
 @app.route('/api/games', methods=['GET'])
 def get_games():
+    # Xử lý phân trang (Pagination)
+    page = int(request.args.get('page')) if request.args.get('page') else 0
+    limit = int(request.args.get('limit')) if request.args.get('limit') else 10
+    first_id = page * limit
+    last_id = first_id + limit
     array = db.session.query(Game, GameTagged, Tag)\
                         .select_from(Game).join(GameTagged).filter(Game.gid==GameTagged.gid)\
                         .join(Tag).filter(GameTagged.tid==Tag.tid).all()
@@ -212,8 +217,13 @@ def get_games():
             mapping[name].append(tag)
     for key, value in mapping.items():
         list_game.append({'name' : key, 'tags' : value})
-
-    return jsonify({'array' : list_game, 'length' : len(list_game)}), 200
+    list_game = list_game[first_id:last_id]
+    return jsonify({'array' : list_game, 
+                    'length' : len(list_game),
+                    '_pagination' : {
+                        '_limit' : len(list_game),
+                        '_page' : page
+                    }}), 200
 
 @app.route('/api/accounts', methods=['GET'])
 def get_accounts():
