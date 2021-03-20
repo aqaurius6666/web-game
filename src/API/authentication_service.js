@@ -1,7 +1,7 @@
 import { BASE_URL } from '../App'
 import handleResponse from './handle_response';
 import { BehaviorSubject } from 'rxjs'
-const currentAccountSubject = new BehaviorSubject(localStorage.getItem('account'))
+// const currentAccountSubject = new BehaviorSubject(localStorage.getItem('account'))
 const currentTokenSubject = new BehaviorSubject(localStorage.getItem('token'))
 
 const authenticationService = {
