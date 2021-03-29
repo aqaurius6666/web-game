@@ -57,7 +57,7 @@ class Game(db.Model):
 class GamePlatform(db.Model):
     __table_name__ = 'game_platform'
     gid = Column(Integer, ForeignKey('game.gid'))
-    platform = Column(String(16), convert_unicode=True, nullable=False)
+    platform = Column(String(16, convert_unicode=True), nullable=False)
     __table_args__ = (
         PrimaryKeyConstraint('gid', 'platform'),
         {},

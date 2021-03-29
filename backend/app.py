@@ -219,16 +219,35 @@ def get_tags():
                         '_limit' : len(tags),
                         '_page' : page
                     }}), 200
+
+@app.route('/api/games/<gid>', methods=['GET'])
+def get_game_by_gid(gid):
+    array = db.session.query(Game, GameTagged, Tag)\
+        .select_from(Game).filter(Game.gid==gid).join(GameTagged).filter(Game.gid==GameTagged.gid)\
+            .join(Tag).filter(GameTagged.tid==Tag.tid).all()
+            
+    mapping = {}
+    for row in array:
+        name = row.Game.name
+        tag = row.Tag.name
+        if name not in mapping.keys():
+            mapping[name] = []
+        else:
+            mapping[name].append(tag)
+    for key, value in mapping.items():
+        game = {**{'name' : key, 'tags' : value}, **Game.query.filter_by(name=key).first().to_dict()}
+    return jsonify(game), 200
 @app.route('/api/games', methods=['GET'])
 def get_games():
     # Xử lý phân trang (Pagination)
     page = int(request.args.get('page')) if request.args.get('page') else 0
     limit = int(request.args.get('limit')) if request.args.get('limit') else 10
+    tag_query = request.args.get('tag') if request.args.get('tag') else None
     first_id = page * limit
     last_id = first_id + limit
     array = db.session.query(Game, GameTagged, Tag)\
                         .select_from(Game).join(GameTagged).filter(Game.gid==GameTagged.gid)\
-                        .join(Tag).filter(GameTagged.tid==Tag.tid).all()
+                        .join(Tag).filter(GameTagged.tid==Tag.tid)
     mapping = {}
     list_game = []
     for row in array:
@@ -239,6 +258,8 @@ def get_games():
         else:
             mapping[name].append(tag)
     for key, value in mapping.items():
+        if tag_query and tag_query not in value:
+            continue
         list_game.append({**{'name' : key, 'tags' : value}, **Game.query.filter_by(name=key).first().to_dict()})
     list_game = list_game[first_id:last_id]
     return jsonify({'array' : list_game, 
