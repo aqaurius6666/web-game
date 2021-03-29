@@ -6,9 +6,22 @@ import handleResponse from "./handle_response";
 const gameService = {
     getGames,
     getTags,
-    getGamesByTag
+    getGamesByTag,
+    getGameByGid
 
 }; export default gameService;
+function getGameByGid(gid) {
+    const requestOptions = {
+        methods: 'GET',
+        headers: { 'Application-Type': 'Application/json' }
+    }
+
+    return fetch(`${BASE_URL}/api/games/${gid}`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data
+        })
+}
 function getGamesByTag(name) {
     const requestOptions = {
         methods: 'GET',

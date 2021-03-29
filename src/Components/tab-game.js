@@ -1,7 +1,8 @@
 export const TabGame = (props) => {
     const { game } = props
+    const url = `/games/${game.gid}`
     return (
-        <a href={game.link} className="tab-game">
+        <a href={url} className="tab-game">
             <div className="row">
                 <img src={game.image} alt={`img_${game.name}`} className="col-sm-3"></img>
                 <div className="col-sm-9">

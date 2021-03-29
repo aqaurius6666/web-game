@@ -2,6 +2,7 @@
 import handleResponse from './handle_response';
 import { BehaviorSubject } from 'rxjs'
 import { BASE_URL } from '../config';
+import history from '../Components/history';
  const currentAccountSubject = new BehaviorSubject(localStorage.getItem('account'))
 const currentTokenSubject = new BehaviorSubject(localStorage.getItem('token'))
 
@@ -10,12 +11,13 @@ const authenticationService = {
     logout,
     register,
     getCurrentTokenValue,
-    getCurrentAccountValue
+    getCurrentAccountValue,
+    currentAccount: currentAccountSubject.asObservable()
 }; export default authenticationService
 
 
 function getCurrentTokenValue() {return currentTokenSubject.value}
-function getCurrentAccountValue() {return currentAccountSubject.value}
+function getCurrentAccountValue() {return JSON.parse(currentAccountSubject.value)}
 function login(username, password) {
     const url = `${BASE_URL}/api/authentication`
     const requestOptions = {
@@ -51,4 +53,5 @@ function logout() {
     currentTokenSubject.complete()
     localStorage.removeItem('account')
     currentAccountSubject.complete()
+    history.push('/login')
 }

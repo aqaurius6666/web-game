@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import authenticationService from '../API/authenticationService'
 import history from './history';
 import Loading from './loading';
@@ -15,8 +15,8 @@ const Login = () => {
             history.push('/')
             window.location.reload()
         });
-
     }
+
     if (loading) return <Loading />
     
     return (

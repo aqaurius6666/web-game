@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react"
-import gameService from "../API/gameService"
 import TagButton from "./tag-button"
 
 const TagCategory = (props) => {
     const { tags } = props
     const left = tags.slice(0, 5)
     const right = tags.slice(5, 10)
-    console.log(left)
-    console.log(right)
     return (
         <div>
             Tag category:

@@ -6,7 +6,7 @@ import { TabGame } from './tab-game'
 import TagCategory from './tag-category'
 
 export const Home = () => {
-    const [data, setData] = useState(Object)
+    const [user, setUser] = useState(Object)
     const [games, setGames] = useState(Array)
     const [tags, setTags] = useState(Array)
     const [loading, setLoading] = useState(true)
@@ -18,7 +18,7 @@ export const Home = () => {
             if (++completed === tasks) setLoading(false)
         }
         userService.getUser().then(data => {
-            setData(data)
+            setUser(data)
             done()
         })
         gameService.getGames().then(data => {
@@ -33,7 +33,7 @@ export const Home = () => {
     if (loading) return <Loading />
     return (
         <div>
-            It home, {data.username}.
+            It home, {user.username}.
             <div className="row">
                 <div className="col-sm-10">
                     {games.map((data, key) => {
