@@ -1,4 +1,4 @@
-import authenticationService from "./authentication_service";
+import authenticationService from "./authenticationService";
 
 function handleResponse(response) {
     return response.text().then(text => {

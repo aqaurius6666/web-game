@@ -1,30 +1,37 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Nav, Navbar } from "react-bootstrap";
+import authenticationService from '../API/authenticationService';
 
 const NavBar = () => {
+    const [currentAccount, setCurrentAccount] = useState()
+    useEffect(() => {
+        setCurrentAccount(authenticationService.getCurrentAccountValue())
+    }, [currentAccount])
 
+    const handleLogout = (e) => {
+        authenticationService.logout()
+        setCurrentAccount(undefined)
+    }
     return (
-        <>
-            <Nav>
-                <NavLink to='/'>
-                    <h1>Logo</h1>
-                </NavLink>
-                <Bars />
-                <NavMenu>
-                    <NavLink to='/Home' activeStyle>
-                        Home
-                    </NavLink>
-                    <NavLink to='/login' activeStyle>
-                        Login
-                    </NavLink>
-                    <NavLink to='/register' activeStyle>
-                        register
-                    </NavLink>
-                </NavMenu>
-                <NavBtn>
-                    
-                </NavBtn>
-            </Nav>
-        </>
+        <Navbar>
+            <Navbar.Brand />
+            <Navbar.Toggle />
+            <Navbar.Collapse>
+                {currentAccount ?
+                        // Nếu đang trong đăng nhập
+                    <>
+                        <Nav.Link href="/"> About</Nav.Link>
+                        <Nav.Link href="/login" onClick={handleLogout}> Logout</Nav.Link>
+                    </>
+                    :
+                        // Nếu chưa đăng nhập
+                    <>
+                        <Nav.Link href="/register"> Register</Nav.Link>
+                        <Nav.Link href="/login"> Login</Nav.Link>
+                    </>}
+
+            </Navbar.Collapse>
+        </Navbar>
     )
+
 }; export default NavBar

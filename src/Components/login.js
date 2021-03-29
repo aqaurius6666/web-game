@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import authenticationService from '../API/authentication_service'
+import authenticationService from '../API/authenticationService'
 import history from './history';
 
 const Login = () => {

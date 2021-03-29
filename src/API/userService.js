@@ -1,5 +1,5 @@
-import { BASE_URL } from '../App';
-import authenticationService from './authentication_service';
+import {BASE_URL} from '../config'
+import authenticationService from './authenticationService';
 import handleResponse from './handle_response';
 
 const userService = {
