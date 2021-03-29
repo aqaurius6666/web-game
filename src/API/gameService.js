@@ -1,4 +1,5 @@
-import { BASE_URL } from "../App";
+
+import { BASE_URL } from "../config";
 import handleResponse from "./handle_response";
 
 
@@ -13,8 +14,10 @@ function getGames() {
         headers: { 'Application-Type': 'Application/json' }
     }
 
-    return fetch(`${BASE_URL}/api/games`, requestOptions).then(handleResponse)
+    return fetch(`${BASE_URL}/api/games`, requestOptions)
+        .then(handleResponse)
         .then(data => {
+            console.log(data.array)
             return data.array
         })
 }

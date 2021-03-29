@@ -6,7 +6,8 @@ import NavBar from './Components/navbar';
 import Register from './Components/register';
 import Login from './Components/login'
 import NotFoundPage from './Components/404';
-export const BASE_URL = 'https://our-web-game.herokuapp.com'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
     <>
