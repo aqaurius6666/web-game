@@ -123,7 +123,8 @@ def create_game():
     if 'is_list' in data.keys():
         # data có mảng
         for each in data['array']:
-            create_one_game(each)
+            if not create_one_game(each):
+                print(each)
     else:
         create_one_game(data)
 
@@ -131,48 +132,51 @@ def create_game():
   
 
 def create_one_game(data):
-    print(data)
-    game = Game.query.filter_by(name=data['name']).first()
-    if not game:
-        ## tạo 1 game mới
-        game = Game(name=data['name'], image=data['image'], link=data['link'])
-        db.session.add(game)
-        db.session.commit()
-        for each in data['platforms']:
-            game = Game.query.filter_by(name=data['name']).first()
-            platform = GamePlatform.query.filter_by(platform=each, gid=game.gid).first() # Kiểm tra trong db có platform chưa
-            if not platform:
-                platform = GamePlatform(gid=game.gid, platform=each) # chưa có platform thì thêm platform mới
-                db.session.add(platform)
-                db.session.commit()
+    try:
+        game = Game.query.filter_by(name=data['name']).first()
+        if not game:
+            ## tạo 1 game mới
+            game = Game(name=data['name'], image=data['image'], link=data['link'])
+            db.session.add(game)
+            db.session.commit()
+            for each in data['platforms']:
+                game = Game.query.filter_by(name=data['name']).first()
+                platform = GamePlatform.query.filter_by(platform=each, gid=game.gid).first() # Kiểm tra trong db có platform chưa
+                if not platform:
+                    platform = GamePlatform(gid=game.gid, platform=each) # chưa có platform thì thêm platform mới
+                    db.session.add(platform)
+                    db.session.commit()
 
-        for name_tag in data['tags']:
-            tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa
-            if not tag:
-                tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
-                db.session.add(tag)
-                db.session.commit()
+            for name_tag in data['tags']:
+                tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa
+                if not tag:
+                    tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
+                    db.session.add(tag)
+                    db.session.commit()
 
-            row = GameTagged(gid=game.gid, tid=tag.tid)
-            db.session.add(row)
-
-        db.session.commit()
-    else:
-        ## update các tags
-        for name_tag in data['tags']:
-            tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa
-            if not tag:
-                tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
-                db.session.add(tag)
-                db.session.commit()
-            # Kiểm tra xem game cũ đã gắn tag chưa
-            if GameTagged.query.filter_by(gid=game.gid, tid = tag.tid).first():
-                pass
-            else:
                 row = GameTagged(gid=game.gid, tid=tag.tid)
                 db.session.add(row)
 
             db.session.commit()
+        else:
+            ## update các tags
+            for name_tag in data['tags']:
+                tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa
+                if not tag:
+                    tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
+                    db.session.add(tag)
+                    db.session.commit()
+                # Kiểm tra xem game cũ đã gắn tag chưa
+                if GameTagged.query.filter_by(gid=game.gid, tid = tag.tid).first():
+                    pass
+                else:
+                    row = GameTagged(gid=game.gid, tid=tag.tid)
+                    db.session.add(row)
+
+                db.session.commit()
+    except Exception as e:
+        print(e)
+        return False
 
     return True
 @app.route('/api/tags', methods=['POST'])
