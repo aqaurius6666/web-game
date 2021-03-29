@@ -228,7 +228,7 @@ def get_games():
         else:
             mapping[name].append(tag)
     for key, value in mapping.items():
-        list_game.append({'name' : key, 'tags' : value})
+        list_game.append({**{'name' : key, 'tags' : value}, **Game.query.filter_by(name=key).first().to_dict()})
     list_game = list_game[first_id:last_id]
     return jsonify({'array' : list_game, 
                     'length' : len(list_game),
