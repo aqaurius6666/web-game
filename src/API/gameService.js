@@ -1,4 +1,5 @@
 import { BASE_URL } from "../App";
+import handleResponse from "./handle_response";
 
 
 const gameService = {
@@ -8,9 +9,12 @@ const gameService = {
 
 function getGames() {
     const requestOptions = {
-        methods : 'GET',
-        headers : {'Application-Type' : 'Application/json'}
+        methods: 'GET',
+        headers: { 'Application-Type': 'Application/json' }
     }
 
-    return fetch(`${BASE_URL}/api/`)
+    return fetch(`${BASE_URL}/api/games`, requestOptions).then(handleResponse)
+        .then(data => {
+            return data.array
+        })
 }
