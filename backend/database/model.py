@@ -1,7 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql.elements import ColumnClause
-from sqlalchemy.sql.expression import null
+from flask_sqlalchemy.model import Model
 from sqlalchemy.sql.schema import ForeignKey, Column, PrimaryKeyConstraint
 from sqlalchemy.sql.sqltypes import Integer, String, TIMESTAMP, UnicodeText
 
@@ -9,7 +8,7 @@ from sqlalchemy.sql.sqltypes import Integer, String, TIMESTAMP, UnicodeText
 
 db = SQLAlchemy()
 
-class Account(db.Model):
+class Account(Model):
     __table_name__ = 'account'
     uid = Column(String(36), primary_key=True)
     username = Column(String(36))
@@ -22,7 +21,7 @@ class Account(db.Model):
             'username' : self.username
         }
 
-class UserInfo(db.Model):
+class UserInfo(Model):
     __table_name__ = 'user_info'
     uid = Column(String(36),  ForeignKey('account.uid'), primary_key=True)
     name = Column(String(64, convert_unicode=True))
@@ -31,7 +30,7 @@ class UserInfo(db.Model):
             'uid' : self.uid,
             'name' : self.name
         }
-class Liked(db.Model):
+class Liked(Model):
     __table_name__ = 'liked'
     id = Column(Integer, primary_key=True, autoincrement=True)
     uid = Column(String(36),  ForeignKey('account.uid'))
@@ -41,7 +40,7 @@ class Liked(db.Model):
             'uid' : self.uid,
             'gid' : self.gid
         }
-class Game(db.Model):
+class Game(Model):
     __table_name__ = 'game'
     gid = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(128, convert_unicode=True))
@@ -56,7 +55,7 @@ class Game(db.Model):
             'link' : self.link
         }
 
-class GamePlatform(db.Model):
+class GamePlatform(Model):
     __table_name__ = 'game_platform'
     gid = Column(Integer, ForeignKey('game.gid'))
     platform = Column(String(16), convert_unicode=True, nullable=False)
@@ -64,7 +63,7 @@ class GamePlatform(db.Model):
         PrimaryKeyConstraint('gid', 'platform'),
         {},
     )
-class GameTagged(db.Model):
+class GameTagged(Model):
     __table_name__ = 'game_tagged'
     id = Column(Integer, primary_key=True, autoincrement=True)
     gid = Column(Integer, ForeignKey('game.gid'))
@@ -74,7 +73,7 @@ class GameTagged(db.Model):
             'gid' : self.gid,
             'tid' : self.tid
         }
-class Tag(db.Model):
+class Tag(Model):
     __table_name__ = 'tag'
     tid = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(45, convert_unicode=True))
@@ -83,7 +82,7 @@ class Tag(db.Model):
             'tid' : self.tid,
             'name' : self.name
         }
-class Comment(db.Model):
+class Comment(Model):
     __table_name__ = 'comment'
     cid = Column(Integer, primary_key=True, autoincrement=True)
     gid = Column(Integer, ForeignKey('game.gid'))
