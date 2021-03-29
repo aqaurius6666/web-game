@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.tab-game {
+  border: 1px solid #1532b1;
+}

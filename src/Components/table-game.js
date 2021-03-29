@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import gameService from '../API/gameService'
-import userService from '../API/userService'
-import Loading from './loading'
-import { TabGame } from './tab-game'
-import TagCategory from './tag-category'
+import { useEffect, useState } from "react"
+import gameService from "../API/gameService";
+import Loading from "./loading";
+import { TabGame } from "./tab-game";
+import TagCategory from "./tag-category";
 
-export const Home = () => {
-    const [data, setData] = useState(Object)
-    const [games, setGames] = useState(Array)
-    const [tags, setTags] = useState(Array)
+const TableGame = (props) => {
+    const { tag } = props
     const [loading, setLoading] = useState(true)
+    const [tags, setTags] = useState([])
+    const [games, setGames] = useState([])
     useEffect(() => {
         let completed = 0
-        let tasks = 3
+        let tasks = 1
         setLoading(true)
         function done() {
             if (++completed === tasks) setLoading(false)
         }
-        userService.getUser().then(data => {
-            setData(data)
-            done()
-        })
-        gameService.getGames().then(data => {
+        gameService.getGamesByTag(tag).then(data => {
             setGames(data)
+            console.log(data)
             done()
         })
         gameService.getTags().then(data => {
@@ -33,7 +29,6 @@ export const Home = () => {
     if (loading) return <Loading />
     return (
         <div>
-            It home, {data.username}.
             <div className="row">
                 <div className="col-sm-10">
                     {games.map((data, key) => {
@@ -43,10 +38,10 @@ export const Home = () => {
                     })}
                 </div>
                 <div className="col-sm-2">
-                    <TagCategory tags={tags}/>
+                    <TagCategory tags={tags} />
                 </div>
             </div>
 
         </div>
-    );
-}
+    )
+}; export default TableGame

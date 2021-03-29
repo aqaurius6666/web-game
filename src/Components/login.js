@@ -1,22 +1,26 @@
 import React, { useState } from 'react'
 import authenticationService from '../API/authenticationService'
 import history from './history';
+import Loading from './loading';
 
 const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-
+    const [loading, setLoading] = useState(false)
     const onSubmitForm = (e) => {
         e.preventDefault();
-            authenticationService.login(username, password).then(() => {
-                history.push('/')
-                window.location.reload()
-            });
+        setLoading(true)
+        authenticationService.login(username, password).then(() => {
+            setLoading(false)
+            history.push('/')
+            window.location.reload()
+        });
 
     }
-
+    if (loading) return <Loading />
+    
     return (
-        <div>
+        <>
             <form className="login-form" onSubmit={onSubmitForm}>
                 <div className="form-group">
                     <label htmlFor="username"> Username</label>
@@ -32,6 +36,7 @@ const Login = () => {
                     </button>
                 </div>
             </form>
-        </div>
+        </>
+        
     )
 }; export default Login

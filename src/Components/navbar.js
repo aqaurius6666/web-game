@@ -6,7 +6,7 @@ const NavBar = () => {
     const [currentAccount, setCurrentAccount] = useState()
     useEffect(() => {
         setCurrentAccount(authenticationService.getCurrentAccountValue())
-    }, [currentAccount])
+    }, [])
 
     const handleLogout = (e) => {
         authenticationService.logout()
@@ -22,6 +22,7 @@ const NavBar = () => {
                     <>
                         <Nav.Link href="/"> About</Nav.Link>
                         <Nav.Link href="/login" onClick={handleLogout}> Logout</Nav.Link>
+                        <Nav.Link href="/profile">Account</Nav.Link>
                     </>
                     :
                         // Nếu chưa đăng nhập
