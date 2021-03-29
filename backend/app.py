@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 HEROKU = "config_heroku.py"
 LOCAL = "config_local.py"
-app.config.from_pyfile(HEROKU)
+app.config.from_pyfile(LOCAL)
 db.init_app(app)
 
 def token_required(f):
@@ -75,7 +75,8 @@ def login():
     if account:
         if check_password_hash(account.password, data['password']):
             return jsonify({'message' : 'Login successfully!', 
-                            'token' : encode_auth_token(account.uid, app.config['SECRET_KEY'])})
+                            'token' : encode_auth_token(account.uid, app.config['SECRET_KEY']),
+                            'account' : account.to_dict()}), 200
     else:
         return jsonify({'message' : 'Username or password is invalid!'}), 400
 
@@ -134,9 +135,16 @@ def create_one_game(data):
     game = Game.query.filter_by(name=data['name']).first()
     if not game:
         ## tạo 1 game mới
-        game = Game(name=data['name'])
+        game = Game(name=data['name'], image=data['image'], link=data['link'])
         db.session.add(game)
         db.session.commit()
+        for each in data['platforms']:
+            game = Game.query.filter_by(name=data['name']).first()
+            platform = GamePlatform.query.filter_by(platform=each, gid=game.gid).first() # Kiểm tra trong db có platform chưa
+            if not platform:
+                platform = GamePlatform(gid=game.gid, platform=each) # chưa có platform thì thêm platform mới
+                db.session.add(platform)
+                db.session.commit()
 
         for name_tag in data['tags']:
             tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa

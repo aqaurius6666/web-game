@@ -1,14 +1,19 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql.elements import ColumnClause
+from sqlalchemy.sql.expression import null
+from sqlalchemy.sql.schema import ForeignKey, Column, PrimaryKeyConstraint
+from sqlalchemy.sql.sqltypes import Integer, String, TIMESTAMP, UnicodeText
+
 
 
 db = SQLAlchemy()
 
 class Account(db.Model):
     __table_name__ = 'account'
-    uid = db.Column(db.String(36), primary_key=True)
-    username = db.Column(db.String(36))
-    password = db.Column(db.String(126))
+    uid = Column(String(36), primary_key=True)
+    username = Column(String(36))
+    password = Column(String(126))
     
 
     def to_dict(self):
@@ -19,8 +24,8 @@ class Account(db.Model):
 
 class UserInfo(db.Model):
     __table_name__ = 'user_info'
-    uid = db.Column(db.String(36),  db.ForeignKey('account.uid'), primary_key=True)
-    name = db.Column(db.String(64, convert_unicode=True))
+    uid = Column(String(36),  ForeignKey('account.uid'), primary_key=True)
+    name = Column(String(64, convert_unicode=True))
     def to_dict(self):
         return {
             'uid' : self.uid,
@@ -28,9 +33,9 @@ class UserInfo(db.Model):
         }
 class Liked(db.Model):
     __table_name__ = 'liked'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uid = db.Column(db.String(36),  db.ForeignKey('account.uid'))
-    gid = db.Column(db.Integer,  db.ForeignKey('game.gid'))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    uid = Column(String(36),  ForeignKey('account.uid'))
+    gid = Column(Integer,  ForeignKey('game.gid'))
     def to_dict(self):
         return {
             'uid' : self.uid,
@@ -38,18 +43,32 @@ class Liked(db.Model):
         }
 class Game(db.Model):
     __table_name__ = 'game'
-    gid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(128, convert_unicode=True))
+    gid = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(128, convert_unicode=True))
+    image = Column(String(128), nullable=True)
+    link = Column(String(128), nullable=True)
+
     def to_dict(self):
         return {
             'gid' : self.gid,
-            'name' : self.name
+            'name' : self.name,
+            'image' : self.image,
+            'link' : self.link
         }
+
+class GamePlatform(db.Model):
+    __table_name__ = 'game_platform'
+    gid = Column(Integer, ForeignKey('game.gid'))
+    platform = Column(String(16), convert_unicode=True, nullable=False)
+    __table_args__ = (
+        PrimaryKeyConstraint('gid', 'platform'),
+        {},
+    )
 class GameTagged(db.Model):
     __table_name__ = 'game_tagged'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    gid = db.Column(db.Integer, db.ForeignKey('game.gid'))
-    tid = db.Column(db.Integer, db.ForeignKey('tag.tid'))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    gid = Column(Integer, ForeignKey('game.gid'))
+    tid = Column(Integer, ForeignKey('tag.tid'))
     def to_dict(self):
         return {
             'gid' : self.gid,
@@ -57,8 +76,8 @@ class GameTagged(db.Model):
         }
 class Tag(db.Model):
     __table_name__ = 'tag'
-    tid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(45, convert_unicode=True))
+    tid = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(45, convert_unicode=True))
     def to_dict(self):
         return {
             'tid' : self.tid,
@@ -66,11 +85,11 @@ class Tag(db.Model):
         }
 class Comment(db.Model):
     __table_name__ = 'comment'
-    cid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    gid = db.Column(db.Integer, db.ForeignKey('game.gid'))
-    time = db.Column(db.TIMESTAMP, default=datetime.utcnow)
-    author = db.Column(db.String(36), db.ForeignKey('account.uid'))
-    body = db.Column(db.UnicodeText)
+    cid = Column(Integer, primary_key=True, autoincrement=True)
+    gid = Column(Integer, ForeignKey('game.gid'))
+    time = Column(TIMESTAMP, default=datetime.utcnow)
+    author = Column(String(36), ForeignKey('account.uid'))
+    body = Column(UnicodeText)
     def to_dict(self):
         return {
             'cid' : self.cid,
