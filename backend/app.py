@@ -8,7 +8,7 @@ from functools import wraps
 import jwt
 from .utilities import *
 from flask_cors import CORS
-from ..config import CONFIG
+from .config import CONFIG
 
 app = Flask(__name__)
 CORS(app)
