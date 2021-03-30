@@ -54,4 +54,5 @@ function logout() {
     localStorage.removeItem('account')
     currentAccountSubject.complete()
     history.push('/login')
+    window.location.reload()
 }

@@ -1,47 +1,21 @@
-import { useEffect, useState } from "react"
-import gameService from "../API/gameService";
-import Loading from "./loading";
+import PaginationNav from "./pagination";
 import { TabGame } from "./tab-game";
 import TagCategory from "./tag-category";
 
 const TableGame = (props) => {
-    const { tag } = props
-    const [loading, setLoading] = useState(true)
-    const [tags, setTags] = useState([])
-    const [games, setGames] = useState([])
-    useEffect(() => {
-        let completed = 0
-        let tasks = 1
-        setLoading(true)
-        function done() {
-            if (++completed === tasks) setLoading(false)
-        }
-        gameService.getGamesByTag(tag).then(data => {
-            setGames(data)
-            console.log(data)
-            done()
-        })
-        gameService.getTags().then(data => {
-            setTags(data)
-            done()
-        })
-    }, [])
-    if (loading) return <Loading />
+    const { tags, games } = props
     return (
-        <div>
-            <div className="row">
-                <div className="col-sm-10">
-                    {games.map((data, key) => {
-                        return (
-                            <TabGame game={data} />
-                        )
+        <div className="container">
+            <div className="row ">
+                <div className="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                    {games.map((each, key) => {
+                        return (<TabGame game={each} />)
                     })}
                 </div>
-                <div className="col-sm-2">
+                <div className="col-xl-2 col-lg-2 col-md-2 col-sm-2 ">
                     <TagCategory tags={tags} />
                 </div>
             </div>
-
         </div>
     )
 }; export default TableGame

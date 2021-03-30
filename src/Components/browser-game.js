@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import gameService from '../API/gameService'
 import userService from '../API/userService'
 import Loading from './loading'
-import { TabGame } from './tab-game'
-import TagCategory from './tag-category'
+import TableGame from './table-game'
 
-export const Home = () => {
+const BrowserGame = (props) => {
+    const { tag } = props
     const [user, setUser] = useState(Object)
     const [games, setGames] = useState(Array)
     const [tags, setTags] = useState(Array)
@@ -21,10 +21,17 @@ export const Home = () => {
             setUser(data)
             done()
         })
-        gameService.getGames().then(data => {
-            setGames(data)
-            done()
-        })
+        if (tag) {
+            gameService.getGamesByTag(tag).then(data => {
+                setGames(data)
+                done()
+            })
+        } else {
+            gameService.getGames().then(data => {
+                setGames(data)
+                done()
+            })
+        }
         gameService.getTags().then(data => {
             setTags(data)
             done()
@@ -32,21 +39,6 @@ export const Home = () => {
     }, [])
     if (loading) return <Loading />
     return (
-        <div>
-            It home, {user.username}.
-            <div className="row">
-                <div className="col-sm-10">
-                    {games.map((data, key) => {
-                        return (
-                            <TabGame game={data} />
-                        )
-                    })}
-                </div>
-                <div className="col-sm-2">
-                    <TagCategory tags={tags}/>
-                </div>
-            </div>
-
-        </div>
+        <TableGame tags={tags} games={games} />
     );
-}
+}; export default BrowserGame

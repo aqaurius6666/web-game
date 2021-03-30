@@ -37,6 +37,27 @@
   }
 }
 
-.tab-game {
-  border: 1px solid #1532b1;
+.tab-game-frame {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #263d50f8;
+}
+
+.tab-game-name {
+  color: white;
+  margin-top: 10px;
+}
+.tab-game-details {
+  color: gray;
+  margin-top: 30px;
+}
+.body {
+  background-color: #2d4a63;
+}
+.tag-button {
+  background-color: #3d6181f8;
+  color: #00d4f0;
+}
+.tag-category-header {
+  color: white;
 }

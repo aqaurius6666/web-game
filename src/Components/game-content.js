@@ -24,7 +24,21 @@ const GameContent = (props) => {
         <div className="container">
             <div className="row">
                 <div className="col-sm-9">
-                    {data.name}
+                    <div>
+                        Video
+                    </div>
+                    <div>
+                        About this game
+                    </div>
+                    <div>
+                        System requirement
+                    </div>
+                    <div>
+                        More like this
+                    </div>
+                    <div>
+                        Comment
+                    </div>
              </div>
                 <div className="col-sm-3">
                     <img src={data.image} alt='img' width="300" height="180"></img>

@@ -5,10 +5,9 @@ const TagCategory = (props) => {
     const left = tags.slice(0, 5)
     const right = tags.slice(5, 10)
     return (
-        <div>
-            Tag category:
+        <div className="tag-category">
+            <div className="tag-category-header">Tag category:</div>
             <div className="row">
-
                 <div className="col-md-6">
                     {left.map((each, i) => { return <TagButton tag={each} /> })}
                 </div>
