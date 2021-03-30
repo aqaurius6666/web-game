@@ -8,11 +8,11 @@ from functools import wraps
 import jwt
 from .utilities import *
 from flask_cors import CORS
+from ..config import CONFIG
+
 app = Flask(__name__)
 CORS(app)
-HEROKU = "config_heroku.py"
-LOCAL = "config_local.py"
-app.config.from_pyfile(LOCAL)
+app.config.from_pyfile(CONFIG)
 db.init_app(app)
 
 def token_required(f):
