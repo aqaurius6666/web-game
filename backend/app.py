@@ -261,12 +261,14 @@ def get_games():
         if tag_query and tag_query not in value:
             continue
         list_game.append({**{'name' : key, 'tags' : value}, **Game.query.filter_by(name=key).first().to_dict()})
+    total = len(list_game)
     list_game = list_game[first_id:last_id]
     return jsonify({'array' : list_game, 
                     'length' : len(list_game),
                     '_pagination' : {
                         '_limit' : len(list_game),
-                        '_page' : page
+                        '_page' : page,
+                        '_total' : total
                     }}), 200
 
 @app.route('/api/accounts', methods=['GET'])
