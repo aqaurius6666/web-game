@@ -12,7 +12,7 @@ import EditProfile from './Components/edit-profile';
 
 import authenticationService from './API/authenticationService';
 import GameContent from './Components/game-content';
-import BrowserGame from './Components/browser-game';
+import BrowserPage from './Components/browser-game';
 import Footer from './Components/footer';
 
 function App() {
@@ -28,13 +28,13 @@ function App() {
         <NavBar />
       <div className="container">
         <Switch>
-          <Route exact path="/" component={BrowserGame} />
+          <Route exact path="/" component={BrowserPage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile" component={User} />
           <Route exact path="/profile/edit" component={EditProfile} />
           <Route path="/games/:gid" component={(props) => <GameContent gid={props.match.params.gid} />} />
-          <Route path="/tags/:tag" component={(props) => <BrowserGame tag={props.match.params.tag} />} />
+          <Route path="/tags/:tag" component={(props) => <BrowserPage tag={props.match.params.tag} />} />
           <Route path="/" component={NotFoundPage} />
         </Switch>
       </div>

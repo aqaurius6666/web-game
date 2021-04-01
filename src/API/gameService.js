@@ -30,8 +30,8 @@ function getGamesByTag(_page = 1, _limit = 10, name) {
 
     return fetch(`${BASE_URL}/api/games?tag=${name}&page=${_page}&limit=${_limit}`, requestOptions)
         .then(handleResponse)
-        .then(({ array, _pagination }) => {
-            return { array, _pagination }
+        .then((data) => {
+            return data
         })
 }
 function getGames(_page = 1, _limit = 10) {

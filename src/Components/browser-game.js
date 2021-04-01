@@ -3,43 +3,18 @@ import gameService from '../API/gameService'
 import userService from '../API/userService'
 import Loading from './loading'
 import TableGame from './table-game'
+import TagCategory from './tag-category'
 
-const BrowserGame = (props) => {
+const BrowserPage = (props) => {
     const { tag } = props
-    const [user, setUser] = useState(Object)
-    const [games, setGames] = useState(Array)
-    const [tags, setTags] = useState(Array)
-    const [loading, setLoading] = useState(true)
-    useEffect(() => {
-        let completed = 0
-        let tasks = 3
-        setLoading(true)
-        function done() {
-            if (++completed === tasks) setLoading(false)
-        }
-        userService.getUser().then(data => {
-            setUser(data)
-            done()
-        })
-        if (tag) {
-            gameService.getGamesByTag(tag).then(data => {
-                setGames(data)
-                done()
-            })
-        } else {
-            gameService.getGames().then(({array}) => {
-                setGames(array)
-                done()
-            })
-        }
-        gameService.getTags().then(data => {
-            setTags(data)
-            done()
-        })
-    }, [])
-
-    if (loading) return <Loading />
     return (
-        <TableGame tags={tags} games={games} />
+        <div className="row">
+            <div classname="col-md-10">
+                <TableGame tag={tag} />
+            </div>
+            <div className="col-md-2">
+                <TagCategory />
+            </div>
+        </div>
     );
-}; export default BrowserGame
+}; export default BrowserPage
