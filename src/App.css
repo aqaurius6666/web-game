@@ -56,8 +56,34 @@
 }
 .tag-button {
   background-color: #3d6181f8;
-  color: #00d4f0;
+  color: white;
+  width: 100px;
+  height: 40px;
+  margin: 5px 5px 5px 5px;
+}
+.tag-button:hover {
+  background-color: #29455cf8;
 }
 .tag-category-header {
   color: white;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+}
+
+.login-frame {
+  padding-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  padding-bottom: 30px;
+
+}
+.footer {
+  background-color: #263d50f8;
+}
+.header {
+  background-color: #263d50f8;
+}
+a:hover {
+  text-decoration: none;
 }

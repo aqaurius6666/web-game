@@ -22,28 +22,28 @@ function getGameByGid(gid) {
             return data
         })
 }
-function getGamesByTag(name) {
+function getGamesByTag(_page = 1, _limit = 10, name) {
     const requestOptions = {
         methods: 'GET',
         headers: { 'Application-Type': 'Application/json' }
     }
 
-    return fetch(`${BASE_URL}/api/games?tag=${name}`, requestOptions)
+    return fetch(`${BASE_URL}/api/games?tag=${name}&page=${_page}&limit=${_limit}`, requestOptions)
         .then(handleResponse)
-        .then(({ array }) => {
-            return array
+        .then(({ array, _pagination }) => {
+            return { array, _pagination }
         })
 }
-function getGames() {
+function getGames(_page = 1, _limit = 10) {
     const requestOptions = {
         methods: 'GET',
         headers: { 'Application-Type': 'Application/json' }
     }
 
-    return fetch(`${BASE_URL}/api/games`, requestOptions)
+    return fetch(`${BASE_URL}/api/games?page=${_page}&limit=${_limit}`, requestOptions)
         .then(handleResponse)
-        .then(({ array }) => {
-            return array
+        .then(({ array, _pagination }) => {
+            return { array, _pagination }
         })
 }
 function getTags() {

@@ -27,8 +27,8 @@ const BrowserGame = (props) => {
                 done()
             })
         } else {
-            gameService.getGames().then(data => {
-                setGames(data)
+            gameService.getGames().then(({array}) => {
+                setGames(array)
                 done()
             })
         }
@@ -37,6 +37,7 @@ const BrowserGame = (props) => {
             done()
         })
     }, [])
+
     if (loading) return <Loading />
     return (
         <TableGame tags={tags} games={games} />

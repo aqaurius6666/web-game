@@ -18,7 +18,8 @@ const authenticationService = {
 
 function getCurrentTokenValue() {return currentTokenSubject.value}
 function getCurrentAccountValue() {return JSON.parse(currentAccountSubject.value)}
-function login(username, password) {
+function login({username, password}) {
+    console.log(username, password)
     const url = `${BASE_URL}/api/authentication`
     const requestOptions = {
         method: 'POST',

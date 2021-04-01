@@ -1,7 +1,7 @@
 import Pagination from "react-js-pagination";
 
-const PaginationNav = (currentPage, itemPerPage, totalItem, pageRangeDisplayed, onChange) => {
-
+const PaginationNav = (props) => {
+    const {currentPage, itemPerPage, totalItem, pageRangeDisplayed, onChange} = props
     return (
         <Pagination
             Pagination

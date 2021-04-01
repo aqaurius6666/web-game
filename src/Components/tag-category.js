@@ -8,10 +8,11 @@ const TagCategory = (props) => {
         <div className="tag-category">
             <div className="tag-category-header">Tag category:</div>
             <div className="row">
-                <div className="col-md-6">
+                <div className="col-lg-5 col-md-5">
                     {left.map((each, i) => { return <TagButton tag={each} /> })}
                 </div>
-                <div className="col-md-6">
+                <div className="col-lg-1 col-md-1"></div>
+                <div className="col-lg-5 col-md-5">
                     {right.map((each, i) => { return <TagButton tag={each} /> })}
                 </div>
             </div>
