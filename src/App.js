@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import './style.css';
 import React, { useEffect, useState } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import NavBar from './Components/navbar';

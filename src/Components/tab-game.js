@@ -4,7 +4,7 @@ export const TabGame = (props) => {
     return (
         <div className="tab-game-frame">
             <a href={url} className="row">
-                <img src={game.image} alt={`img_${game.name}`} className="col-sm-4"></img>
+                <img src={game.image} alt={`img_${game.name}`} className="col-sm-4" height="100px"></img>
                 <div className="tab-game-content col-sm-8">
                     <div className="tab-game-name">
                         {game.name}

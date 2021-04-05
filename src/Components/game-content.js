@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import gameService from "../API/gameService"
 import Loading from "./loading"
+import TagCategory from "./tag-category"
 
 const GameContent = (props) => {
     const { gid } = props
@@ -40,9 +41,7 @@ const GameContent = (props) => {
                     Comment
                     </div>
             </div>
-            <div className="col-sm-3">
-                <img src={data.image} alt='img' width="300" height="180"></img>
-            </div>
+            <TagCategory game_tags={data.tags}/>
         </div>
     )
 }

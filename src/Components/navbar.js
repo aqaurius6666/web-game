@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Nav, Navbar } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import authenticationService from '../API/authenticationService';
-
+import "../style.css"
 const NavBar = () => {
     const [currentAccount, setCurrentAccount] = useState()
     useEffect(() => {
@@ -13,17 +13,20 @@ const NavBar = () => {
         setCurrentAccount(undefined)
     }
     return (
-        <div className="header">
-            <Navbar>
+        <div >
+            <Navbar >
                 <Navbar.Brand />
                 <Navbar.Toggle />
                 <Navbar.Collapse>
                     {currentAccount ?
                         // Nếu đang trong đăng nhập
                         <>
-                            <Nav.Link href="/"> About</Nav.Link>
-                            <Nav.Link href="/login" onClick={handleLogout}> Logout</Nav.Link>
-                            <Nav.Link href="/profile">Account</Nav.Link>
+                            <Nav.Link id="about-nav-bar" href="/"> About</Nav.Link>
+                            <NavDropdown title="Account" id="nav-dropdown-account">
+                                <NavDropdown.Item href="/profile">Account</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="/login" onClick={handleLogout}>Log out</NavDropdown.Item>
+                            </NavDropdown>
                         </>
                         :
                         // Nếu chưa đăng nhập
@@ -35,7 +38,5 @@ const NavBar = () => {
                 </Navbar.Collapse>
             </Navbar>
         </div>
-
     )
-
 }; export default NavBar

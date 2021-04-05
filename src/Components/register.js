@@ -15,12 +15,10 @@ const Register = () => {
         e.preventDefault();
         if (checkPass())
             authenticationService.register(userName, password)
-            .then(() => {
-                history.push('/login')
-                window.location.reload()
-            }
-            )
-
+                .then(() => {
+                    history.push('/login')
+                    window.location.reload()
+                })
     }
     return (
         <div className="base-contains">

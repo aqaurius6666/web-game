@@ -29,21 +29,21 @@ const TableGame = (props) => {
             }).finally(done)
         }
     }, [tag, currentPage])
-    if (loading) return (<Loading />)
     return (
-        <div className="col">
-            {games.map((each, key) => {
-                return (<TabGame game={each} />)
-            })}
-            <div className="pagination-bar">
-                <PaginationNav
-                    currentPage={currentPage}
-                    itemPerPage={pagination._limit}
-                    totalItem={pagination._total}
-                    pageRangeDisplayed={7}
-                    onChange={setCurrentPage} />
+        <div className="col-md-10">
+            <div className="col">
+                {games.map((each, key) => {
+                    return (<TabGame game={each} />)
+                })}
+                <div className="pagination-bar">
+                    <PaginationNav
+                        currentPage={currentPage}
+                        itemPerPage={pagination._limit}
+                        totalItem={pagination._total}
+                        pageRangeDisplayed={7}
+                        onChange={setCurrentPage} />
+                </div>
             </div>
-
         </div>
     )
 }; export default TableGame
