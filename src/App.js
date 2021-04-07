@@ -15,6 +15,7 @@ import authenticationService from './API/authenticationService';
 import GameContent from './Components/game-content';
 import BrowserPage from './Components/browser-game';
 import Footer from './Components/footer';
+import Example from './Components/test';
 
 function App() {
   const [account, setAccount] = useState(authenticationService.getCurrentAccountValue())
@@ -30,6 +31,7 @@ function App() {
       <div className="container">
         <Switch>
           <Route exact path="/" component={BrowserPage} />
+          <Route exact path="/test" component={Example} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile" component={User} />

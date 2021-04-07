@@ -16,17 +16,16 @@ const GameContent = (props) => {
         }
         gameService.getGameByGid(gid).then(data => {
             setData(data)
-            console.log(data)
             done()
         })
     }, [gid])
     if (loading) return <Loading />
-    return (
+    return (    
         <div className="row">
             <div className="col-sm-9">
                 <div>
                     Video
-                        <video id="movie_256825205" playsinline="true" class="highlight_player_item highlight_movie" poster="https://cdn.akamai.steamstatic.com/steam/apps/256825205/movie.293x165.jpg?t=1615537106" preload="none" src="https://cdn.akamai.steamstatic.com/steam/apps/256825205/movie480_vp9.webm?t=1615537106" data-hd-src="https://cdn.akamai.steamstatic.com/steam/apps/256825205/movie_max_vp9.webm?t=1615537106"></video>
+                        <iframe width="800" height="450" src={`https://www.youtube.com/embed/${data.ytl}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
                 </div>
                 <div>
                     About this game
@@ -41,7 +40,7 @@ const GameContent = (props) => {
                     Comment
                     </div>
             </div>
-            <TagCategory game_tags={data.tags}/>
+            <TagCategory game_tags={data.tags} />
         </div>
     )
 }

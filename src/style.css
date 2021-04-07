@@ -80,3 +80,23 @@
       color: white;
      text-justify: right;
   }
+
+
+  .nav-account-frame {
+    position: absolute;
+    right: 100px;
+  }
+.about-nav-bar {
+  position: absolute;
+  left: 100px;
+}
+.dropdown-menu{
+  margin-left: -400px;
+  background-color: #29455cf8;
+}
+.dropdown-item {
+  color: white;
+}
+.navbar {
+  height: 120%;
+}
