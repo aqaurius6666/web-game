@@ -1,102 +1,128 @@
-
 .tab-game-frame {
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: #263d50f8;
-  }
-  
-  .tab-game-name {
+}
+
+.tab-game-name {
     color: white;
     margin-top: 10px;
-  }
-  .tab-game-details {
+}
+
+.tab-game-details {
     color: gray;
     margin-top: 30px;
-  }
-  .body {
+}
+
+.body {
     background-color: #2d4a63;
-  }
-  .tag-button {
+}
+
+.tag-button {
     background-color: #3d6181f8;
     color: white;
     width: 100px;
     height: 40px;
     margin: 5px 5px 5px 5px;
-  }
-  .tag-button:hover {
+}
+
+.tag-button:hover {
     background-color: #29455cf8;
-  }
-  .tag-category-header {
+}
+
+.tag-category-header {
     color: white;
     margin-left: auto;
     margin-right: auto;
     display: inline-block;
-  }
-  
-  .login-frame {
+}
+
+.login-frame {
     padding-top: 20px;
     margin-left: 200px;
     margin-right: 200px;
     padding-bottom: 30px;
-  
-  }
-  .navbar {
+}
+
+.navbar {
     padding-top: 10px;
     background-color: #263d50f8;
     font-size: large;
     color: white;
     padding-bottom: 10px;
     margin-bottom: 20px;
-  }
-  .footer {
+}
+
+.footer {
     padding-top: 10px;
     background-color: #263d50f8;
     font-size: large;
     color: white;
     padding-bottom: 10px;
-  }
-  .footer-content {
+}
+
+.footer-content {
     margin-left: 100px;
-  }
-  .footer-link {
+}
+
+.footer-link {
     margin-left: 100px;
-  }
-  .header {
+}
+
+.header {
     background-color: #263d50f8;
-  }
-  a:hover {
+}
+
+a:hover {
     text-decoration: none;
-  }
-  .pagination {
+}
+
+.pagination {
     justify-content: center;
-  }
-  
-  #login-nav-bar {
+}
+
+#login-nav-bar {
     justify-content: left;
-    
-  }
+}
 
-  #nav-dropdown-account {
-      color: white;
-     text-justify: right;
-  }
+#nav-dropdown-account {
+    color: white;
+    text-justify: right;
+}
 
-
-  .nav-account-frame {
+.nav-account-frame {
     position: absolute;
     right: 100px;
-  }
+}
+
 .about-nav-bar {
-  position: absolute;
-  left: 100px;
+    position: absolute;
+    left: 100px;
 }
-.dropdown-menu{
-  margin-left: -400px;
-  background-color: #29455cf8;
+
+.dropdown-menu {
+    margin-left: -400px;
+    background-color: #29455cf8;
 }
+
 .dropdown-item {
-  color: white;
+    color: white;
 }
+
 .navbar {
-  height: 120%;
+    height: 120%;
+}
+
+.game-info-frame {
+    background: #29455cf8;
+    border-color: #2d4a63;
+    color: white;
+    text-align: center;
+}
+
+.game-info-frame img{
+    width: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
 }

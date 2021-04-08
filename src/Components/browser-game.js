@@ -6,8 +6,13 @@ const BrowserPage = (props) => {
     const { tag } = props
     return (
         <div className="row">
-            <TableGame tag={tag} />
-            <TagCategory />
+            <div className="col-md-10 col-sm-10">
+                <TableGame tag={tag} />
+            </div>
+            <div className="col-md-2 col-sm-2">
+                <TagCategory />
+            </div>
+
         </div>
     );
 }; export default BrowserPage
