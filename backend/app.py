@@ -174,7 +174,7 @@ def create_one_game(data):
 
                 db.session.commit()
     except Exception as e:
-        print(e)
+        print(e, data)
         return False
 
     return True
