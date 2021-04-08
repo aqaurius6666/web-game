@@ -45,7 +45,7 @@ class Game(db.Model):
     name = Column(String(128, convert_unicode=True))
     image = Column(String(128), nullable=True)
     link = Column(String(128), nullable=True)
-    ytl = Column(String(24), nullable=True)
+    ytl = Column(String(32), nullable=True)
 
     def to_dict(self):
         return {
