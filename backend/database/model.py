@@ -45,7 +45,7 @@ class Game(db.Model):
     name = Column(String(128, convert_unicode=True))
     image = Column(String(128), nullable=True)
     link = Column(String(128), nullable=True)
-    ytl = Column(String(16), nullable=True)
+    ytl = Column(String(24), nullable=True)
 
     def to_dict(self):
         return {
@@ -59,7 +59,7 @@ class Game(db.Model):
 class GamePlatform(db.Model):
     __table_name__ = 'game_platform'
     gid = Column(Integer, ForeignKey('game.gid'))
-    platform = Column(String(16, convert_unicode=True), nullable=False)
+    platform = Column(String(24, convert_unicode=True), nullable=False)
     __table_args__ = (
         PrimaryKeyConstraint('gid', 'platform'),
         {},
