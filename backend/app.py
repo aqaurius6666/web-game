@@ -241,7 +241,7 @@ def get_game_by_gid(gid):
 @app.route('/api/games', methods=['GET'])
 def get_games():
     # Xử lý phân trang (Pagination)
-    page = int(request.args.get('page')) if request.args.get('page') else 0
+    page = int(request.args.get('page')) if request.args.get('page') else 1
     limit = int(request.args.get('limit')) if request.args.get('limit') else 10
 
     tag_query = request.args.get('tag') if request.args.get('tag') else None

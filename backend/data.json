@@ -1,7 +1,6 @@
 {
     "is_list": true,
-    "array": [
-        {
+    "array": [{
             "name": "Colony Ship: A Post-Earth Role Playing Game",
             "link": "https://store.steampowered.com/app/648410/Colony_Ship_A_PostEarth_Role_Playing_Game/?snr=1_1452_4__103",
             "ytl": "K3lHko-SP7c",
@@ -64,7 +63,7 @@
         {
             "name": "Hextones",
             "link": "https://store.steampowered.com/app/1570750/Hextones/?snr=1_1452_4__103",
-            "ytl": "https://www.youtube.com/channel/UCxg8CjmwniNXZf6G5GXn_hQ",
+            "ytl": "bRq_J7S_9oQ",
             "platforms": [
                 "win"
             ],
