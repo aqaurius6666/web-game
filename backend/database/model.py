@@ -45,13 +45,15 @@ class Game(db.Model):
     name = Column(String(128, convert_unicode=True))
     image = Column(String(128), nullable=True)
     link = Column(String(128), nullable=True)
+    ytl = Column(String(16), nullable=True)
 
     def to_dict(self):
         return {
             'gid' : self.gid,
             'name' : self.name,
             'image' : self.image,
-            'link' : self.link
+            'link' : self.link,
+            'ytl' : self.ytl
         }
 
 class GamePlatform(db.Model):

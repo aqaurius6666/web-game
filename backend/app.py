@@ -57,7 +57,6 @@ def add_like():
 def get_all_likes():
     array = db.session.query(Account, Liked, Game).filter(Account.uid==Liked.uid)\
                     .select_from(Game).join(Game).filter(Liked.gid==Game.gid).order_by(Game.gid).all()
-    print(array)
     return {}
 
 #-----------------------------------------------------------------------------------------------------------------
@@ -136,7 +135,7 @@ def create_one_game(data):
         game = Game.query.filter_by(name=data['name']).first()
         if not game:
             ## tạo 1 game mới
-            game = Game(name=data['name'], image=data['image'], link=data['link'])
+            game = Game(name=data['name'], image=data['image'], link=data['link'], ytl=data['ytl'])
             db.session.add(game)
             db.session.commit()
             for each in data['platforms']:
@@ -242,12 +241,13 @@ def get_games():
     # Xử lý phân trang (Pagination)
     page = int(request.args.get('page')) if request.args.get('page') else 0
     limit = int(request.args.get('limit')) if request.args.get('limit') else 10
+
     tag_query = request.args.get('tag') if request.args.get('tag') else None
-    first_id = page * limit
+    first_id = (page-1) * limit
     last_id = first_id + limit
     array = db.session.query(Game, GameTagged, Tag)\
                         .select_from(Game).join(GameTagged).filter(Game.gid==GameTagged.gid)\
-                        .join(Tag).filter(GameTagged.tid==Tag.tid)
+                        .join(Tag).filter(GameTagged.tid==Tag.tid).all()
     mapping = {}
     list_game = []
     for row in array:
