@@ -122,8 +122,7 @@ def create_game():
     if 'is_list' in data.keys():
         # data có mảng
         for each in data['array']:
-            if not create_one_game(each):
-                print(each)
+            create_one_game(each)
     else:
         create_one_game(data)
 
@@ -138,11 +137,11 @@ def create_one_game(data):
             game = Game(name=data['name'], image=data['image'], link=data['link'], ytl=data['ytl'])
             db.session.add(game)
             db.session.commit()
-            for each in data['platforms']:
+            for plat in data['platforms']:
                 game = Game.query.filter_by(name=data['name']).first()
-                platform = GamePlatform.query.filter_by(platform=each, gid=game.gid).first() # Kiểm tra trong db có platform chưa
+                platform = GamePlatform.query.filter_by(platform=plat, gid=game.gid).first() # Kiểm tra trong db có platform chưa
                 if not platform:
-                    platform = GamePlatform(gid=game.gid, platform=each) # chưa có platform thì thêm platform mới
+                    platform = GamePlatform(gid=game.gid, platform=plat) # chưa có platform thì thêm platform mới
                     db.session.add(platform)
                     db.session.commit()
 
@@ -161,20 +160,23 @@ def create_one_game(data):
             ## update các tags
             for name_tag in data['tags']:
                 tag = Tag.query.filter_by(name=name_tag).first() # Kiểm tra trong db có tag chưa
-                if not tag:
-                    tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
-                    db.session.add(tag)
-                    db.session.commit()
-                # Kiểm tra xem game cũ đã gắn tag chưa
-                if GameTagged.query.filter_by(gid=game.gid, tid = tag.tid).first():
-                    pass
+                if tag:
+                    if GameTagged.query.filter_by(gid=game.gid, tid = tag.tid).first():
+                        continue
+                    else:
+                        row = GameTagged(gid=game.gid, tid=new_tag.tid)
+                        db.session.add(row)
+                        db.session.commit()
                 else:
-                    row = GameTagged(gid=game.gid, tid=tag.tid)
+                    new_tag = Tag(name=name_tag) # chưa có tag thì thêm tag mới
+                    db.session.add(new_tag)
+                    row = GameTagged(gid=game.gid, tid=new_tag.tid)
                     db.session.add(row)
+                    db.session.commit()
 
-                db.session.commit()
     except Exception as e:
         print(e, data)
+        db.session.rollback()
         return False
 
     return True
