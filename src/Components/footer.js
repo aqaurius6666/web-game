@@ -1,16 +1,19 @@
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+
 const Footer = () => {
 
     return (
         <>
-        <br></br>
-        <div className="row footer">
-            <div className="footer-content col-md-8">
-                © 2021 Team
-            </div>
-            <div className="footer-link ">
-                <a href="/about">About</a>
-            </div>
-        </div>
+            <Navbar className="row">
+                <Nav>
+                    <Nav.Item className="col-md-8 ml-5">
+                        Hello
+                    </Nav.Item>
+                </Nav>
+                <Nav className="navbar-right-frame">
+                    Hello
+                </Nav>
+            </Navbar>
         </>
     )
 }; export default Footer

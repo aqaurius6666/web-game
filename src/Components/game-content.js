@@ -22,29 +22,13 @@ const GameContent = (props) => {
     }, [gid])
     if (loading) return <Loading />
     return (
-        <div className="row">
-            <div className="col-md-10 col-sm-10">
-                <div>
-                    <iframe width="90%" height="500px" src={`https://www.youtube.com/embed/${data.ytl}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
-                </div>
-                <div>
-                    About this game
-                    </div>
-                <div>
-                    System requirement
-                    </div>
-                <div>
-                    More like this
-                    </div>
-                <div>
-                    Comment
-                    </div>
+        <div className="row media-frame">
+            <div className="col-md-9 col-sm-9">
+                <iframe width="100%" height="500px" src={`https://www.youtube.com/embed/${data.ytl}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
             </div>
-            <div className="col-md-2 col-sm-2">
+            <div className="game-info-frame col-md-3 col-sm-3">
                 <GameInfo game={data} />
-                <TagCategory game_tags={data.tags} />
             </div>
-
         </div>
     )
 }

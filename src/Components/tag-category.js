@@ -32,14 +32,13 @@ const TagCategory = (props) => {
         <div className="tag-category">
             <div className="tag-category-header">Tag category:</div>
             <div className="row">
-                <div className="col-lg-5 col-md-5">
+                <div className="col-lg-6 col-md-6">
                     {tags.slice(0, tags.length / 2).map((each, i) => {
                         console.log(each)
                         return <TagButton tag={each} />
                     })}
                 </div>
-                <div className="col-lg-1 col-md-1"></div>
-                <div className="col-lg-5 col-md-5">
+                <div className="col-lg-6 col-md-6">
                     {tags.slice(tags.length / 2, tags.length).map((each, i) => { return <TagButton tag={each} /> })}
                 </div>
             </div>

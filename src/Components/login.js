@@ -24,7 +24,7 @@ const Login = () => {
 
     return (
         <div className="border row login-frame">
-            <form onSubmit={onSubmitForm} className="col-md-6 login-form">
+            <form onSubmit={onSubmitForm} className="col-md-6 col-sm-6">
                 <div className="mb-3">
                     <label for="username" className="form-label">Username</label>
                     <input type="text" className="form-control"
@@ -37,7 +37,7 @@ const Login = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form >
-            <div className="col-md-6">
+            <div className="col-md-6 col-sm-6 login-form">
                 <br></br>
                 <LoginInfo />
             </div>

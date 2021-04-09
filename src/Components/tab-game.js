@@ -13,9 +13,9 @@ export const TabGame = (props) => {
                         Tags:
                         {game.tags.map((tag, i) => {
                         if (i !== 0) {
-                            return <span>, {tag}</span>
+                            return (<><span>, </span><a href={`/tags/${tag}`}>{tag}</a></>)
                         }
-                        return <span> {tag}</span>
+                        return <a href={`/tags/${tag}`}> {tag}</a>
                     })}
                     </div>
                 </div>

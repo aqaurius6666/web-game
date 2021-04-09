@@ -30,7 +30,6 @@ const TableGame = (props) => {
         }
     }, [tag, currentPage])
     return (
-        <div className="col-md-10">
             <div className="col">
                 {games.map((each, key) => {
                     return (<TabGame game={each} />)
@@ -44,6 +43,5 @@ const TableGame = (props) => {
                         onChange={setCurrentPage} />
                 </div>
             </div>
-        </div>
     )
 }; export default TableGame

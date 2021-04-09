@@ -1,10 +1,13 @@
+import TagCategory from "./tag-category"
+
 const GameInfo = (props) => {
-    const {game} = props
+    const { game } = props
 
     return (
-        <div className="game-info-frame">
-            <img src={game.image}></img>
-            {game.name}
-        </div>
+        <span className="game-info-frame">
+            <img width="100%" src={game.image}></img>
+            <div>{game.name}</div>
+            <TagCategory game_tags={game.tags} />
+        </span>
     )
 }; export default GameInfo

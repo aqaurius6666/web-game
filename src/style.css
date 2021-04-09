@@ -13,6 +13,12 @@
     color: gray;
     margin-top: 30px;
 }
+.tab-game-details a{
+    color: gray;
+}
+.tab-game-details a:hover{
+    color: white;
+}
 
 .body {
     background-color: #2d4a63;
@@ -21,9 +27,10 @@
 .tag-button {
     background-color: #3d6181f8;
     color: white;
-    width: 100px;
+    width: 7.5vw;
     height: 40px;
-    margin: 5px 5px 5px 5px;
+    font-size: 1.6vh;
+    margin: 5px 0px 5px 0px;
 }
 
 .tag-button:hover {
@@ -32,9 +39,6 @@
 
 .tag-category-header {
     color: white;
-    margin-left: auto;
-    margin-right: auto;
-    display: inline-block;
 }
 
 .login-frame {
@@ -45,29 +49,11 @@
 }
 
 .navbar {
-    padding-top: 10px;
     background-color: #263d50f8;
     font-size: large;
     color: white;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
 }
 
-.footer {
-    padding-top: 10px;
-    background-color: #263d50f8;
-    font-size: large;
-    color: white;
-    padding-bottom: 10px;
-}
-
-.footer-content {
-    margin-left: 100px;
-}
-
-.footer-link {
-    margin-left: 100px;
-}
 
 .header {
     background-color: #263d50f8;
@@ -85,26 +71,6 @@ a:hover {
     justify-content: left;
 }
 
-#nav-dropdown-account {
-    color: white;
-    text-justify: right;
-}
-
-.nav-account-frame {
-    position: absolute;
-    right: 100px;
-}
-
-.about-nav-bar {
-    position: absolute;
-    left: 100px;
-}
-
-.dropdown-menu {
-    margin-left: -400px;
-    background-color: #29455cf8;
-}
-
 .dropdown-item {
     color: white;
 }
@@ -114,10 +80,8 @@ a:hover {
 }
 
 .game-info-frame {
-    background: #29455cf8;
-    border-color: #2d4a63;
     color: white;
-    text-align: center;
+    background-color: #263d51;
 }
 
 .game-info-frame img{
@@ -125,4 +89,21 @@ a:hover {
     margin-top: 5%;
     margin-bottom: 5%;
 
+}
+
+.login-info-frame {
+    width: 100%;
+    height: 100%;
+}
+
+.media-frame {
+    margin-top: 10px;
+}
+
+.game-info-frame img{
+    width: 100%;
+}
+
+.navbar-right-frame {
+    align-items: flex-end;
 }
